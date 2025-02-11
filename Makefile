@@ -1,11 +1,11 @@
 ##
-## EPITECH PROJECT, 2024
-## makefile
+## 9nickss, 2025
+## File_Integrity_Monitor
 ## File description:
-## make moi des files
+## Makefile
 ##
 
-NAME	=	FIM
+NAME	=	fim
 
 SRCS	=	$(wildcard src/*.c)
 
