@@ -18,8 +18,9 @@ int read_file(const char *filepath)
         perror("Error opening file");
         exit(84);
     }
+    hash_filename(filepath);
     while ((read = getline(&buffer, &len, file) != -1)) {
-        
+        hash_buffer(buffer);
     }
     if (ferror(file)) {
         perror("Error reading file");
