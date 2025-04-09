@@ -5,8 +5,6 @@
 ** fim.c
 */
 
-#include <stdlib.h>
-#include <stdio.h>
 #include "../include/fim.h"
 
 int main(int argc, char **argv)

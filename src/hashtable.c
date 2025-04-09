@@ -6,8 +6,6 @@
 */
 
 #include "../include/fim.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 hashtable_t *new_hashtable(int (*hash)(char *, int), int len)
 {

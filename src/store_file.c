@@ -5,9 +5,6 @@
 ** store_file.c
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <stddef.h>
 #include "../include/fim.h"
 
 int read_file(const char *filepath)
