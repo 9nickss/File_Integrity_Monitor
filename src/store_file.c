@@ -6,6 +6,10 @@
 */
 
 #include "../include/fim.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <stddef.h>
+#include <stddef.h>
 
 int read_file(const char *filepath)
 {
@@ -19,9 +23,6 @@ int read_file(const char *filepath)
         exit(84);
     }
     hash_filename(filepath);
-    while ((read = getline(&buffer, &len, file) != -1)) {
-        hash_buffer(buffer);
-    }
     if (ferror(file)) {
         perror("Error reading file");
         free(buffer);

@@ -6,25 +6,40 @@
 */
 
 #include "../../include/fim.h"
-#include <unistd.h>
-#include <string.h>
 #include <stdio.h>
+#include <openssl/sha.h>
 
-
-char *separate_name(char *filename)
+char *separate_name(const char *filename)
 {
     char *str = strdup(filename);
-    char *last_slash = strrchr(str, "/");
+    char *last_slash = strrchr(str, '/');
 
     if (last_slash != NULL)
         return strdup(last_slash + 1);
     return str;
 }
 
-void hash_filename(char *filename)
+char *hash_file_content(const char *filename)
 {
-    char *name = NULL;
+    FILE *file = fopen(filename, "rb");
+    SHA256_CTX context;
+    
 
-    name = separate_name(filename);
+    if (!file)
+        return NULL;
+    SHA256_Init(&context);
+    return str;
+}
 
+void hash_filename(const char *filename)
+{
+    char *name = separate_name(filename);
+    char *hash = hash_file_content(filename);
+
+    if (hash) {
+        printf("File: %s, Hash: %s\n", name, hash);
+        free(hash);
+    } else
+        printf("Error hashing file %s\n", name);
+    free(name);
 }
