@@ -23,12 +23,24 @@ char *hash_file_content(const char *filename)
 {
     FILE *file = fopen(filename, "rb");
     SHA256_CTX context;
-    
+    unsigned char buffer[4096];
+    size_t bytes_read;
 
     if (!file)
         return NULL;
     SHA256_Init(&context);
-    return str;
+    while ((bytes_read = fread(buffer, 1, sizeof(buffer), file)) > 0)
+        SHA256_Update(&context, buffer, bytes_read);
+    fclose(file);
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_Final(hash, &context);
+    char *hash_string = malloc(SHA256_DIGEST_LENGTH * 2 + 1);
+    if (!hash_string)
+        return NULL;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+        sprintf(&hash_string[i * 2], "%02x", hash[i]);
+    }
+    return hash_string;
 }
 
 void hash_filename(const char *filename)

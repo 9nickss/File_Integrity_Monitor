@@ -33,6 +33,6 @@ hashtable_t *new_hashtable(int (*hash)(char *, int), int len);
 void delete_hashtable(hashtable_t *ht);
 
 // hash_file.c
-void hash_filename(char *filename);
+void hash_filename(const char *filename);
 
 #endif /*FIM_H_*/
