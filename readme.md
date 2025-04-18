@@ -6,6 +6,8 @@ A lightweight, secure daemon that continuously monitors file integrity using SHA
 
 This File Integrity Monitor (FIM) creates and maintains cryptographic hashes of files in specified directories. By comparing current file states against a trusted baseline, it detects and alerts on unauthorized modifications, additions, or deletions—a crucial element in any cybersecurity defense strategy.
 
+This project is being developed as a personal learning exercise to improve my skills in C programming, cybersecurity concepts, cryptographic implementation, and system daemon development.
+
 ## Development Status
 
 **Current Status: Early Development**
@@ -95,10 +97,13 @@ alert_recipient=admin@example.com
 
 Requirements
 C compiler (GCC/Clang)
+
 OpenSSL development libraries
+
 Linux-based operating system
+
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 Author
-9nickss (2025) ```
+9nickss (2025)
