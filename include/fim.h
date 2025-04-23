@@ -15,24 +15,18 @@
     #define FIM_H_
 
 typedef struct node_s {
-    char *key;
-    char *value;
+    char *filename;
+    char *hash;
     struct node_s *next;
-} node_t;
-
-typedef struct hashtable_s {
-    node_t **table;
-    int size;
 } hashtable_t;
 
 // sore_file.c
-int store_file(int argc, char **argv);
+int store_file(hashtable_t *hashtable, int argc, char **argv);
 
-// hashtable.c
-hashtable_t *new_hashtable(int (*hash)(char *, int), int len);
-void delete_hashtable(hashtable_t *ht);
+// hashtables.c
+hashtable_t *add_to_hashtable(hashtable_t *hashtable, char *hash, char *filename);
 
 // hash_file.c
-void hash_filename(const char *filename);
+int hash_filename(hashtable_t *hashtable, const char *filename);
 
 #endif /*FIM_H_*/
