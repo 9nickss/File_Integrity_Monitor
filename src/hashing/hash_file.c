@@ -6,16 +6,20 @@
 */
 
 #include "../../include/fim.h"
-#include <stdio.h>
-#include <openssl/sha.h>
 
 char *separate_name(const char *filename)
 {
     char *str = strdup(filename);
     char *last_slash = strrchr(str, '/');
+    char *result;
 
-    if (last_slash != NULL)
-        return strdup(last_slash + 1);
+    if (!str)
+        return NULL;
+    if (last_slash != NULL) {
+        result = strdup(last_slash + 1);
+        free(str);
+        return result;
+    }
     return str;
 }
 
@@ -43,15 +47,19 @@ char *hash_file_content(const char *filename)
     return hash_string;
 }
 
-void hash_filename(const char *filename)
+int hash_filename(hashtable_t **hashtable, const char *filename)
 {
     char *name = separate_name(filename);
     char *hash = hash_file_content(filename);
 
     if (hash) {
-        printf("File: %s, Hash: %s\n", name, hash);
+        printf("File: %s Hash: %s\n", name, hash);
+        *hashtable = add_to_hashtable(*hashtable, hash, name);
         free(hash);
+        if (!*hashtable)
+            return 84;
     } else
         printf("Error hashing file %s\n", name);
     free(name);
+    return 0;
 }

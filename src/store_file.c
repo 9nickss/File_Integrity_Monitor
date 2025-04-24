@@ -6,28 +6,21 @@
 */
 
 #include "../include/fim.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <stddef.h>
-#include <stddef.h>
 
-int read_file(const char *filepath)
+int open_file(hashtable_t *hashtable, const char *filepath)
 {
     FILE *file = fopen(filepath, "r");
-    char *buffer = NULL;
     size_t len = 0;
     int read = 0;
 
     if (file == NULL) {
         perror("Error opening file");
-        exit(84);
+        return 84;
     }
-    hash_filename(filepath);
-    if (ferror(file)) {
-        perror("Error reading file");
-        free(buffer);
+    if (hash_filename(&hashtable, filepath) == 84) {
+        perror("Error hashing file");
         fclose(file);
-        exit(84);
+        return 84;
     }
     fclose(file);
     return 0;
@@ -45,7 +38,7 @@ static char *get_file(int argc, char **argv)
     return filepath;
 }
 
-int store_file(int argc, char **argv)
+int store_file(hashtable_t *hashtable, int argc, char **argv)
 {
     char *filepath = NULL;
 
@@ -54,6 +47,6 @@ int store_file(int argc, char **argv)
         fprintf(stderr, "Failed to store filepath");
         exit(84);
     }
-    read_file(filepath);
+    open_file(hashtable, filepath);
     return 0;
 }
