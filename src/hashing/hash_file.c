@@ -47,16 +47,16 @@ char *hash_file_content(const char *filename)
     return hash_string;
 }
 
-int hash_filename(hashtable_t *hashtable, const char *filename)
+int hash_filename(hashtable_t **hashtable, const char *filename)
 {
     char *name = separate_name(filename);
     char *hash = hash_file_content(filename);
 
     if (hash) {
         printf("File: %s Hash: %s\n", name, hash);
-        hashtable = add_to_hashtable(hashtable, hash, name);
+        *hashtable = add_to_hashtable(*hashtable, hash, name);
         free(hash);
-        if (!hashtable)
+        if (!*hashtable)
             return 84;
     } else
         printf("Error hashing file %s\n", name);

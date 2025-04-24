@@ -32,12 +32,15 @@ hashtable_t *add_to_hashtable(hashtable_t *hashtable, char *hash, char *filename
             new_node = malloc(sizeof(hashtable_t));
             if (!new_node)
                 return NULL;
+            new_node->next = NULL;
             new_node->filename = strdup(filename);
             if (!new_node->filename)
                 return NULL;
             new_node->hash = strdup(hash);
-            if (!new_node->hash)
+            if (!new_node->hash) {
+                free(new_node->filename);
                 return NULL;
+            }
             current->next = new_node;
         }
     }

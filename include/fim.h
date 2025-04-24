@@ -27,6 +27,6 @@ int store_file(hashtable_t *hashtable, int argc, char **argv);
 hashtable_t *add_to_hashtable(hashtable_t *hashtable, char *hash, char *filename);
 
 // hash_file.c
-int hash_filename(hashtable_t *hashtable, const char *filename);
+int hash_filename(hashtable_t **hashtable, const char *filename);
 
 #endif /*FIM_H_*/
