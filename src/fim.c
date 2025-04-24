@@ -17,6 +17,7 @@ static void init_hashtable(hashtable_t *hashtable)
 static void free_hashtable(hashtable_t *hashtable)
 {
     hashtable_t *current = NULL;
+    hashtable_t *next = NULL;
 
     if (!hashtable)
         return;
@@ -26,9 +27,10 @@ static void free_hashtable(hashtable_t *hashtable)
             free(current->filename);
         if (current->hash)
             free(current->hash);
-        current = current->next;
+        next = current->next;
+        free(current);
+        current = next;
     }
-    free(hashtable);
 }
 
 int main(int argc, char **argv)
