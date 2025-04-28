@@ -47,6 +47,8 @@ int main(int argc, char **argv)
     }
     store_file(hashtable, argc, argv);
     add_to_file(hashtable);
+    while (1)
+        check_changes(hashtable);
     free_hashtable(hashtable);
     return 0;
 }

@@ -19,6 +19,7 @@ This project is being developed as a personal learning exercise to improve my sk
 - 🚧 Hash comparison logic - *in progress*
 - ⏳ Daemon functionality - *planned*
 - ⏳ Configuration file support - *planned*
+- ⏳ Graphical configuration interface - *planned*
 - ⏳ Alert system - *planned*
 - ⏳ Directory recursion - *planned*
 - ⏳ Logging system - *planned*
@@ -40,6 +41,7 @@ This project is under active development. Contributions and suggestions are welc
 - **Exclusion Rules**: Configurable paths and patterns to exclude from monitoring
 - **Performance Optimization**: Smart scanning to minimize system impact
 - **Detailed Logging**: Comprehensive event recording for forensic analysis
+- **Graphical Configuration Interface**: User-friendly GUI for system setup and monitoring
 
 ## Technical Implementation
 
@@ -72,11 +74,14 @@ make
 
 # Stop the monitoring daemon
 ./fim stop
+
+# Launch the graphical configuration interface
+./fim config-gui
 ```
 
 ### Configuration
 
-The FIM can be configured by editing the `fim.conf` file:
+The FIM can be configured either through the GUI or by editing the `fim.conf` file:
 
 # Directories to monitor
 monitor_dir=/etc
@@ -106,4 +111,4 @@ License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 Author
-9nickss (2025)
+9nickss / Yannick Kahl (2025)
