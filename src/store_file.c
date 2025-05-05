@@ -7,6 +7,19 @@
 
 #include "../include/fim.h"
 
+char *get_absolute_path(const char *filename)
+{
+    char *absolute_path = malloc(PATH_MAX);
+
+    if (!absolute_path)
+        return NULL;
+    if (realpath(filename, absolute_path) == NULL) {
+        free(absolute_path);
+        return NULL;
+    } 
+    return absolute_path;
+}
+
 int open_file(hashtable_t *hashtable, const char *filepath)
 {
     FILE *file = fopen(filepath, "r");
@@ -26,27 +39,12 @@ int open_file(hashtable_t *hashtable, const char *filepath)
     return 0;
 }
 
-static char *get_file(int argc, char **argv)
+int store_file(hashtable_t *hashtable, char *filename)
 {
-    char *filepath = NULL;
-
-    if (!argv[1]) {
-        perror("Invalid argument");
-        exit(84);
-    }
-    filepath = argv[1];
-    return filepath;
-}
-
-int store_file(hashtable_t *hashtable, int argc, char **argv)
-{
-    char *filepath = NULL;
-
-    filepath = get_file(argc, argv);
-    if (!filepath) {
+    if (!filename) {
         fprintf(stderr, "Failed to store filepath");
         exit(84);
     }
-    open_file(hashtable, filepath);
+    open_file(hashtable, filename);
     return 0;
 }

@@ -15,7 +15,7 @@ OBJS	=	$(SRCS:.c=.o)
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJS)
-			gcc -o $(NAME) $(SRCS) -I./include/ -lcrypto
+			gcc -o $(NAME) $(SRCS) -I./include/ -lcrypto -lpthread
 
 CFLAGS	:	-Wall -Wextra -Wshadow
 

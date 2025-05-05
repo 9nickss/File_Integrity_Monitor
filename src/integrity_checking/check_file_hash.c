@@ -16,17 +16,36 @@ int check_changes(hashtable_t *hashtable)
     if (!hashtable)
         return 84;
     current = hashtable;
-    while (current) {
-        current_hash = hash_file_content(current->filename);
+    while (current != NULL) {
+        if (current->filename)
+            current_hash = hash_file_content(current->filename);
         if (!current_hash) {
-            printf("Warning: %s not accessible.\n", current->filename);
-            changed = 1;
+            if (current->filename) {
+                printf("Warning: %s not accessible.\n", current->filename);
+                changed = 1;
+            }
         }
-        if (strcmp(current->hash, current_hash) != 0) {
+        if (current->hash && strcmp(current->hash, current_hash) != 0) {
             printf("Alert: File hash changed: %s\n", current->filename);
             changed = 1;
         }
-        current = current->next;
+        if (current->next)
+            current = current->next;
+        else
+            break;
     }
     return changed;
+}
+
+void *monitor_thread_function(void *arg)
+{
+    monitor_config_t *config = (monitor_config_t *)arg;
+
+    while (config->running) {
+        pthread_mutex_lock(&config->mutex);
+        check_changes(config->hashtable);
+        pthread_mutex_unlock(&config->mutex);
+        sleep(config->interval);
+    }
+    return NULL;
 }
