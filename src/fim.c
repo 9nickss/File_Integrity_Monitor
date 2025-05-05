@@ -183,7 +183,7 @@ int main(void)
     signal(SIGTERM, signal_handler);
     while (global_config->running) {
         input_loop();
-        sleep(1);
+        usleep(10000);
     }
     //check_shutdown();
     pthread_join(monitor_thread, NULL);
