@@ -33,14 +33,6 @@ static int init_structs(hashtable_t *hashtable, monitor_config_t *config)
     return 0;
 }
 
-void signal_handler(int sig)
-{
-    if (sig == SIGINT || sig == SIGTERM) {
-        printf("\nReceived termination signal. Cleaning up...\n");
-        lock_mutex_stop();
-    }
-}
-
 static void free_hashtable(hashtable_t *hashtable)
 {
     hashtable_t *current = NULL;
@@ -127,6 +119,12 @@ static void add_cmd(char *filename)
     add_to_file(global_config->hashtable);
 }
 
+void reset_cmd()
+{
+    FILE *hash_file = fopen("hashes.fim", "w");
+    fclose(hash_file);
+}
+
 void input_loop()
 {
     char input[400];
@@ -153,8 +151,26 @@ void input_loop()
                 add_cmd(arg);
             } else
                 printf("Please add file to add\n");
+        } else if (strcmp(command, "reset") == 0) {
+            reset_cmd();
         } else
             printf("Unknown command. Type 'help' for a list of known commands\n");
+    }
+}
+
+void cleanup(pthread_t thread, hashtable_t *hashtable, monitor_config_t *config)
+{
+    pthread_join(thread, NULL);
+    free_hashtable(hashtable);
+    pthread_mutex_destroy(&config->mutex);
+}
+
+void signal_handler(int sig)
+{
+    if (sig == SIGINT || sig == SIGTERM) {
+        printf("\nReceived termination signal. Cleaning up...\n");
+        lock_mutex_stop();
+        exit(2);
     }
 }
 
@@ -181,13 +197,12 @@ int main(void)
     global_config = config;
     signal(SIGINT, signal_handler);
     signal(SIGTERM, signal_handler);
+    signal(SIGABRT, signal_handler);
     while (global_config->running) {
         input_loop();
-        usleep(10000);
+        usleep(5000);
     }
     //check_shutdown();
-    pthread_join(monitor_thread, NULL);
-    free_hashtable(hashtable);
-    pthread_mutex_destroy(&config->mutex);
+    cleanup(monitor_thread,hashtable, config);
     return 0;
 }
