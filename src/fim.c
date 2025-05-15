@@ -7,7 +7,12 @@
 
 #include "../include/fim.h"
 
-monitor_config_t *global_config = NULL;
+static monitor_config_t *global_config = NULL;
+
+monitor_config_t *get_config(void)
+{
+    return(global_config);
+}
 
 static void lock_mutex_stop()
 {
@@ -122,7 +127,17 @@ static void add_cmd(char *filename)
 void reset_cmd()
 {
     FILE *hash_file = fopen("hashes.fim", "w");
+
     fclose(hash_file);
+    free_hashtable(global_config->hashtable);
+    global_config->hashtable = malloc(sizeof(hashtable_t));
+    if (global_config->hashtable) {
+        global_config->hashtable->filename = NULL;
+        global_config->hashtable->hash = NULL;
+        global_config->hashtable->next = NULL;
+    }
+    load_from_file(&global_config->hashtable);
+    printf("File monitoring has been reset. No file are being tracked.\n");
 }
 
 void input_loop()

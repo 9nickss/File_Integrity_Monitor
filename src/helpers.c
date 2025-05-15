@@ -13,6 +13,6 @@ void print_help()
     printf("  help          - Show this help message\n");
     printf("  status        - Show status of monitored files\n");
     printf("  add <file>    - Add a new file to be monitored\n");
-    printf("  chec          - Force check on monitored files\n");
+    printf("  check         - Force check on monitored files\n");
     printf("  exit/quit     - Exit the program\n");
 }

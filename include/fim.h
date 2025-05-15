@@ -59,4 +59,7 @@ int load_from_file(hashtable_t **hashtable);
 int check_changes(hashtable_t *hashtable);
 void *monitor_thread_function(void *arg);
 
+// fim.c
+monitor_config_t *get_config(void);
+
 #endif /*FIM_H_*/

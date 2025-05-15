@@ -10,6 +10,7 @@
 int check_changes(hashtable_t *hashtable)
 {
     int changed = 0;
+    monitor_config_t *config = get_config();
     hashtable_t *current = NULL;
     char *current_hash = NULL;
 
