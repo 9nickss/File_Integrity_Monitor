@@ -127,15 +127,17 @@ static void add_cmd(char *filename)
 void reset_cmd()
 {
     FILE *hash_file = fopen("hashes.fim", "w");
+    hashtable_t *new_table;
 
     fclose(hash_file);
     free_hashtable(global_config->hashtable);
-    global_config->hashtable = malloc(sizeof(hashtable_t));
-    if (global_config->hashtable) {
-        global_config->hashtable->filename = NULL;
-        global_config->hashtable->hash = NULL;
-        global_config->hashtable->next = NULL;
+    new_table = malloc(sizeof(hashtable_t));
+    if (new_table) {
+        new_table->filename = NULL;
+        new_table->hash = NULL;
+        new_table->next = NULL;
     }
+    global_config->hashtable = new_table;
     load_from_file(&global_config->hashtable);
     printf("File monitoring has been reset. No file are being tracked.\n");
 }
@@ -173,11 +175,12 @@ void input_loop()
     }
 }
 
-void cleanup(pthread_t thread, hashtable_t *hashtable, monitor_config_t *config)
+void cleanup(pthread_t thread, monitor_config_t *config)
 {
     pthread_join(thread, NULL);
-    free_hashtable(hashtable);
+    free_hashtable(config->hashtable);
     pthread_mutex_destroy(&config->mutex);
+    free(config);
 }
 
 void signal_handler(int sig)
@@ -217,7 +220,6 @@ int main(void)
         input_loop();
         usleep(5000);
     }
-    //check_shutdown();
-    cleanup(monitor_thread,hashtable, config);
+    cleanup(monitor_thread, config);
     return 0;
 }

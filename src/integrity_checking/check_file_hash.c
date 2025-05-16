@@ -29,6 +29,11 @@ int check_changes(hashtable_t *hashtable)
         if (current->hash && strcmp(current->hash, current_hash) != 0) {
             printf("Alert: File hash changed: %s\n", current->filename);
             changed = 1;
+            add_to_file(current);
+            free(current->hash);
+            current->hash = strdup(current_hash);
+            if (!current->hash)
+                break;
         }
         if (current->next)
             current = current->next;

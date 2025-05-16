@@ -38,12 +38,13 @@ int check_if_in_file(FILE *hash_file, const char *hash, const char *filename)
         char stored_filename[512] = {0};
         char stored_hash[512] = {0};
         
-        if (sscanf(line, "%[^:]:%s", stored_filename, stored_hash) == 2) {
+        if (sscanf(line, "%[^:]", stored_filename) == 1) {
             if (strcmp(stored_filename, filename) == 0) {
                 found = 1;
-                if (strcmp(stored_hash, hash) == 0)
-                    return 1;
-                break;
+                // if (strcmp(stored_hash, hash) == 0)
+                    // return 1;
+                // break;
+                return 1;
             }
         }
     }
