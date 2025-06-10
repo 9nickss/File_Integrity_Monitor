@@ -49,12 +49,18 @@ char *hash_file_content(const char *filename)
 
 int hash_filename(hashtable_t **hashtable, const char *filename)
 {
+    char *absolute_path = NULL;
     char *name = separate_name(filename);
     char *hash = hash_file_content(filename);
 
     if (hash) {
         printf("File: %s Hash: %s\n", name, hash);
-        *hashtable = add_to_hashtable(*hashtable, hash, name);
+        absolute_path = get_absolute_path(filename);
+        if (absolute_path) {
+            *hashtable = add_to_hashtable(*hashtable, hash, absolute_path);
+            free(absolute_path);
+        } else
+            *hashtable = add_to_hashtable(*hashtable, hash, name);
         free(hash);
         if (!*hashtable)
             return 84;
